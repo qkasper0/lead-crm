@@ -1,0 +1,9 @@
+/vendor/
+/runtime/*
+!/runtime/.gitkeep
+/web/assets/*
+!/web/assets/.gitkeep
+.env
+*.sqlite
+.DS_Store
+.idea/
