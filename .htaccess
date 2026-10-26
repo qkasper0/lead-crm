@@ -1,0 +1,4 @@
+# Страховка, если корень сайта случайно указан не на web/: закрыть настройки и служебные файлы.
+<FilesMatch "^(\.env|\.env\..*|composer\.(json|lock)|yii)$">
+    Require all denied
+</FilesMatch>
