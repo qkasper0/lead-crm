@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Пример формы на сайте</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 420px; margin: 40px auto; }
+        input, textarea, button { display: block; width: 100%; margin-bottom: 12px; padding: 8px; box-sizing: border-box; }
+        .hp { position: absolute; left: -9999px; }
+    </style>
+</head>
+<body>
+<!--
+  Пример отправки заявки в CRM прямо из браузера.
+  Домен сайта нужно указать в CRM_API_ORIGINS.
+
+  На боевом сайте токен лучше не держать в HTML: форма отправляется на свой бэкенд
+  (PHP/WordPress/Tilda webhook), а он пересылает заявку в CRM с заголовком X-Api-Token.
+-->
+<form id="lead-form">
+    <input name="name" placeholder="Имя" required>
+    <input name="phone" type="tel" placeholder="Телефон" required>
+    <textarea name="comment" placeholder="Комментарий"></textarea>
+    <input name="website" class="hp" tabindex="-1" autocomplete="off"><!-- honeypot -->
+    <button type="submit">Отправить</button>
+    <p id="result"></p>
+</form>
+<script>
+    const CRM_URL = 'http://localhost:8080/api/leads';
+    const CRM_TOKEN = 'change-me';
+
+    document.getElementById('lead-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        data.source = 'website';
+        const res = await fetch(CRM_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Api-Token': CRM_TOKEN },
+            body: JSON.stringify(data),
+        });
+        document.getElementById('result').textContent = res.ok ? 'Спасибо! Мы скоро перезвоним.' : 'Ошибка, попробуйте ещё раз.';
+        if (res.ok) e.target.reset();
+    });
+</script>
+</body>
+</html>

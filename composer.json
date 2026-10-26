@@ -1,0 +1,23 @@
+{
+    "name": "dev-support/lead-crm",
+    "description": "Базовая CRM для лидов на Yii2",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.4",
+        "yiisoft/yii2": "~2.0.53"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
